@@ -1,6 +1,8 @@
 package org.example.finanzas.controllers;
 
+import org.example.finanzas.dtos.BondYieldResultDTO;
 import org.example.finanzas.dtos.FinalCostsResultDTO;
+import org.example.finanzas.dtos.PaymentDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,16 @@ public class BondController {
     public ResponseEntity<FinalCostsResultDTO> calcularCostosFinales(@PathVariable("id") Integer id) {
         // El servicio ya devuelve el DTO que necesitamos. ¡No se necesita ModelMapper!
         FinalCostsResultDTO result = bS.calculateFinalCosts(id);
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/payment-schedule/{id}")
+    public ResponseEntity<List<PaymentDTO>> obtenerCronograma(@PathVariable("id") Integer bondId) {
+        List<PaymentDTO> cronograma = bS.generatePaymentSchedule(bondId);
+        return ResponseEntity.ok(cronograma);
+    }
+    @GetMapping("/yields/{id}")
+    public ResponseEntity<BondYieldResultDTO> obtenerIndicadoresRentabilidad(@PathVariable("id") Integer id) {
+        BondYieldResultDTO result = bS.calculateYields(id);
         return ResponseEntity.ok(result);
     }
 
@@ -69,4 +81,5 @@ public class BondController {
             return m.map(x, BondDTO.class);
         }).collect(Collectors.toList());
     }
+
 }

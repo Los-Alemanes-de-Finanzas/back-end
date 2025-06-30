@@ -1,6 +1,8 @@
 package org.example.finanzas.serviceinterfaces;
 
+import org.example.finanzas.dtos.BondYieldResultDTO;
 import org.example.finanzas.dtos.FinalCostsResultDTO;
+import org.example.finanzas.dtos.PaymentDTO;
 import org.example.finanzas.entities.Bond;
 import org.example.finanzas.entities.IssuanceCosts;
 
@@ -30,4 +32,7 @@ public interface IBondService {
      */
     // Por ahora, empecemos con calcular y guardar los costos.
     FinalCostsResultDTO calculateFinalCosts(Integer bondId);
+    List<PaymentDTO> generatePaymentSchedule(Integer bondId);
+    BondYieldResultDTO calculateYields(Integer bondId);
+
 }
