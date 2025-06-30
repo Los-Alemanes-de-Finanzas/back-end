@@ -12,40 +12,42 @@ public class IssuanceCosts {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "bond_id", nullable = false)
+    @JoinColumn(name = "bond_id", nullable = false) // Requerido: Un costo debe pertenecer a un bono.
     private Bond bond;
 
-    @Column(name = "prima", nullable = false)
+    @Column(name = "prima", nullable = false) // Requerido: Se necesita para el cálculo.
     private Float premium;
 
-    @Column(name = "structuring", nullable = false)
+    @Column(name = "structuring", nullable = false) // Requerido: Se necesita para el cálculo.
     private Float structuringCost;
 
-    @Column(name = "who_pays_structuring", nullable = false, length = 200)
+    @Column(name = "who_pays_structuring", nullable = false, length = 200) // Requerido: Regla de negocio.
     private String whoPaysStructuring;
 
-    @Column(name = "placement", nullable = false)
+    @Column(name = "placement", nullable = false) // Requerido: Se necesita para el cálculo.
     private Float placementCost;
 
-    @Column(name = "who_pays_placement", nullable = false, length = 200)
+    @Column(name = "who_pays_placement", nullable = false, length = 200) // Requerido: Regla de negocio.
     private String whoPaysPlacement;
 
-    @Column(name = "floatation", nullable = false)
+    @Column(name = "floatation", nullable = false) // Requerido: Se necesita para el cálculo.
     private Float flotationCost;
 
-    @Column(name = "who_pays_floatation", nullable = false, length = 200)
+    @Column(name = "who_pays_floatation", nullable = false, length = 200) // Requerido: Regla de negocio.
     private String whoPaysFloatation;
 
-    @Column(name = "cavali", nullable = false)
+    @Column(name = "cavali", nullable = false) // Requerido: Se necesita para el cálculo.
     private Float cavaliFee;
 
-    @Column(name = "who_pays_cavali", nullable = false, length = 200)
+    @Column(name = "who_pays_cavali", nullable = false, length = 200) // Requerido: Regla de negocio.
     private String whoPaysCavali;
 
-    @Column(name = "initial_cost_issuer", nullable = false)
+    // Opcional: Este campo es un resultado. Se calcula y se guarda DESPUÉS de la creación.
+    @Column(name = "initial_cost_issuer")
     private Float initialCostIssuer;
 
-    @Column(name = "initial_cost_bonista", nullable = false)
+    // Opcional: Este campo es un resultado. Se calcula y se guarda DESPUÉS de la creación.
+    @Column(name = "initial_cost_bonista")
     private Float initialCostBondholder;
 
     public IssuanceCosts() {

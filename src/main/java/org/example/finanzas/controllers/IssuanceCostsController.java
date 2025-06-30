@@ -1,10 +1,11 @@
 package org.example.finanzas.controllers;
 
+import org.example.finanzas.dtos.IssuanceCostsCreateDTO;
+import org.example.finanzas.dtos.IssuanceCostsDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.example.finanzas.dtos.IssuanceCostsDTO;
 import org.example.finanzas.entities.IssuanceCosts;
 import org.example.finanzas.serviceinterfaces.IIssuanceCostsService;
 
@@ -20,14 +21,14 @@ public class IssuanceCostsController {
     private IIssuanceCostsService iS;
 
     @PostMapping
-    public void registrar(@RequestBody IssuanceCostsDTO dto) {
+    public void registrar(@RequestBody IssuanceCostsCreateDTO dto) {
         ModelMapper m = new ModelMapper();
         IssuanceCosts ic = m.map(dto, IssuanceCosts.class);
         iS.insert(ic);
     }
 
     @PutMapping
-    public void modificar(@RequestBody IssuanceCostsDTO dto) {
+    public void modificar(@RequestBody IssuanceCostsCreateDTO dto) {
         ModelMapper m = new ModelMapper();
         IssuanceCosts ic = m.map(dto, IssuanceCosts.class);
         iS.update(ic);
