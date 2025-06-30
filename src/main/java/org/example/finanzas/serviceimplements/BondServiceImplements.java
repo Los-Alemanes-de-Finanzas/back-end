@@ -114,7 +114,6 @@ public class BondServiceImplements implements IBondService {
         float saldo = bond.getNominalValue();
         int totalPeriods = bond.getNumberOfYears() * getPeriodsPerYear(bond.getCouponFrequency());
         float amortization = saldo / totalPeriods;
-        float tea = bond.getEffectiveAnnualRate();
         float tasaPeriodo = bond.getCokPerPeriod();
 
         LocalDate fecha = bond.getIssueDate();
@@ -124,15 +123,36 @@ public class BondServiceImplements implements IBondService {
 
         for (int i = 1; i <= totalPeriods; i++) {
             PaymentDTO p = new PaymentDTO();
-            p.setPeriod(i);
             fecha = fecha.plusDays(diasEntrePagos);
             p.setPaymentDate(fecha);
+            p.setPeriod(i);
 
             float interes = saldo * tasaPeriodo;
+            float amort = amortization;
+            float cuota = interes + amort;
+
+            // Aplicar período de gracia
+            if (i <= bond.getGracePeriodDuration()) {
+                switch (bond.getGracePeriodType()) {
+                    case 1: // Gracia parcial: solo intereses
+                        amort = 0;
+                        cuota = interes;
+                        break;
+                    case 2: // Gracia total: no se paga nada
+                        interes = 0;
+                        amort = 0;
+                        cuota = 0;
+                        break;
+                    default:
+                        break; // Gracia tipo 0: se paga normalmente
+                }
+            }
+
             p.setInterest(interes);
-            p.setAmortization(amortization);
-            p.setCuota(interes + amortization);
-            saldo -= amortization;
+            p.setAmortization(amort);
+            p.setCuota(cuota);
+
+            saldo -= amort;
             p.setSaldo(Math.max(saldo, 0f)); // evitar negativos
 
             pagos.add(p);
@@ -140,6 +160,7 @@ public class BondServiceImplements implements IBondService {
 
         return pagos;
     }
+
 
     private int getDaysByFrequency(String freq) {
         return switch (freq.toLowerCase()) {
@@ -205,6 +226,16 @@ public class BondServiceImplements implements IBondService {
         double utilidad = valorNominal - valorComercial;
         double precioActual = valorActual;
 
+        // ✅ Calcular el Precio Máximo de Mercado (COK = 0)
+        saldo = valorNominal;
+        double maxMarketPrice = 0;
+        for (int i = 1; i <= periodosTotales; i++) {
+            float interes = saldo * tasa / getPeriodosPorAnio(bond.getCouponFrequency());
+            float cuota = interes + amortizacion;
+            maxMarketPrice += cuota;
+            saldo -= amortizacion;
+        }
+
         BondYieldResultDTO dto = new BondYieldResultDTO();
         dto.setBondId(bondId);
         dto.setTcea(tcea);
@@ -214,6 +245,8 @@ public class BondServiceImplements implements IBondService {
         dto.setMacaulayDuration(duracionMacaulay);
         dto.setModifiedDuration(duracionModificada);
         dto.setConvexity(convexidad);
+        dto.setMaxMarketPrice(maxMarketPrice); // ✅ Nuevo campo
+
         return dto;
     }
 

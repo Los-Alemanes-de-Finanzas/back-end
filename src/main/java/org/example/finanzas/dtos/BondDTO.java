@@ -22,9 +22,6 @@ public class BondDTO {
     private Float effectiveAnnualRate;
     private Float cokPerPeriod;
 
-    // Relación anidada con el DTO de costos
-    private int issuanceCosts;
-
     // Getters y Setters
 
 
@@ -164,11 +161,4 @@ public class BondDTO {
         this.cokPerPeriod = cokPerPeriod;
     }
 
-    public int getIssuanceCosts() {
-        return issuanceCosts;
-    }
-
-    public void setIssuanceCosts(int issuanceCosts) {
-        this.issuanceCosts = issuanceCosts;
-    }
 }

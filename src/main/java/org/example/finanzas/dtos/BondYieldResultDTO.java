@@ -9,6 +9,7 @@ public class BondYieldResultDTO {
     private double convexity;
     private double currentPrice;
     private double profitOrLoss;
+    private double maxMarketPrice; // ✅ NUEVO
 
     // Getters & Setters
 
@@ -75,4 +76,13 @@ public class BondYieldResultDTO {
     public void setProfitOrLoss(double profitOrLoss) {
         this.profitOrLoss = profitOrLoss;
     }
+
+    public double getMaxMarketPrice() { // ✅ NUEVO
+        return maxMarketPrice;
+    }
+
+    public void setMaxMarketPrice(double maxMarketPrice) { // ✅ NUEVO
+        this.maxMarketPrice = maxMarketPrice;
+    }
 }
+
