@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class BondDTO {
 
     private int id;
+    private String name;
     private int userId;
     private Float nominalValue;
     private Float commercialValue;
@@ -31,6 +32,14 @@ public class BondDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getUserId() {
