@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/issuancecosts")
-@PreAuthorize("hasAuthority('USER')")
 public class IssuanceCostsController {
 
     @Autowired
